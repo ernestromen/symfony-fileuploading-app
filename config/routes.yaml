@@ -1,0 +1,31 @@
+target_path:
+   path: /
+   controller: App\Controller\PageController::index
+
+register:
+   path: /register
+   controller: App\Controller\RegistrationController::register
+app_login:
+   path: /login
+   controller: App\Controller\SecurityController::login
+   methods: [GET,POST]
+app_logout:
+   path: /logout
+   controller: App\Controller\SecurityController::logOut
+
+user_list:
+   path: /userlist
+   controller: App\Controller\PageController::userList
+
+video_list:
+   path: /videolist
+   controller: App\Controller\PageController::videoList
+
+add_video:
+   path: /addvideo
+   controller: App\Controller\PageController::addVideo
+
+delete_user:
+   path: /deleteuser/{id}
+   controller: App\Controller\PageController::deleteUser
+   methods: [GET,DELETE]

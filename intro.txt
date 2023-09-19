@@ -1,0 +1,27 @@
+composer require symfony/webpack-encore-bundle
+will generate a webpack.config.js file
+
+configure the correct paths in the following lines:
+const Encore = require('@symfony/webpack-encore');
+// Manually configure the runtime environment if not already configured yet by the "encore" command.
+// It's useful when you use tools that rely on webpack.config.js file.
+if (!Encore.isRuntimeEnvironmentConfigured()) {
+    Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
+}
+Encore
+    // directory where compiled assets will be stored
+    .setOutputPath('public/build/')
+    // public path used by the web server to access the output path
+    // .setPublicPath('/tobedeleted/public/build')
+    .setPublicPath('/tobedeleted/public/build')
+
+
+For implementing bootstrap in a symfony project like this
+npm install
+npm install bootstrap
+
+add to ./assets/app.js
+import 'bootstrap/dist/js/bootstrap.bundle';
+
+add to ./assets/app.css
+@import '~bootstrap/dist/css/bootstrap.css';

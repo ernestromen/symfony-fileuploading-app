@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+        {% block stylesheets %}
+        {{ parent() }}
+        {% endblock %}
+        {% block javascripts %}
+            {{ parent() }}
+        {% endblock %}
+
+        {% block content %}
+        <h1>home page</h1>
+        {% if app.user and app.user.email  %}
+        <p>Email: {{ app.user.email }}</p>
+        {% endif %}
+        {% endblock %}
+

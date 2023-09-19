@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </head>
+    {% block body %}
+    <body>
+        <ul>
+            {# {% if is_granted('ROLE_ADMIN') %}
+            <li  {% if app.request.attributes.get('_route') == 'register' %} class="active"{% endif %}><a href="{{ path('register') }}">Add Users</a></li>
+            {% endif %}
+            {% if is_granted('ROLE_ADMIN') %}
+            <li  {% if app.request.attributes.get('_route') == 'add_video' %} class="active"{% endif %}><a href="{{ path('add_video') }}">Add Videos</a></li>
+            {% endif %}
+            {% if not is_granted('IS_AUTHENTICATED') %}
+            <li {% if app.request.attributes.get('_route') == 'app_login' %} class="active"{% endif %}><a href="{{ path('app_login') }}">Log in</a></li>
+            {% endif %}
+            {% if is_granted('IS_AUTHENTICATED') %}
+            <li {% if app.request.attributes.get('_route') == 'video_list' %} class="active"{% endif %}><a href="{{ path('video_list') }}">Video List</a></li>
+            {% endif %}
+            {% if is_granted('ROLE_ADMIN') %}
+            <li  {% if app.request.attributes.get('_route') == 'user_list' %} class="active"{% endif %}><a href="{{path('user_list') }}">User list</a></li>
+            {% endif %} 
+            <li  {% if app.request.attributes.get('_route') == 'app_logout' %} class="active"{% endif %}><a href="{{path('app_logout') }}">Log out</a></li>
+            {% if is_granted('IS_AUTHENTICATED') %}
+            <li style="float:right;"><a href=""> Hello {{app.user.username}}</a></li>
+            {% endif %}
+          </ul>
+          {% block content %}{% endblock %} #}
+        {% endblock %}
+</body>
+    {{ encore_entry_script_tags('app') }} 
+</html>
