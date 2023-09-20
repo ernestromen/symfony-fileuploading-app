@@ -13,7 +13,7 @@
     {% block body %}
     <body>
         <ul>
-            {# {% if is_granted('ROLE_ADMIN') %}
+            {% if is_granted('ROLE_ADMIN') %}
             <li  {% if app.request.attributes.get('_route') == 'register' %} class="active"{% endif %}><a href="{{ path('register') }}">Add Users</a></li>
             {% endif %}
             {% if is_granted('ROLE_ADMIN') %}
@@ -33,7 +33,7 @@
             <li style="float:right;"><a href=""> Hello {{app.user.username}}</a></li>
             {% endif %}
           </ul>
-          {% block content %}{% endblock %} #}
+          {% block content %}{% endblock %}
         {% endblock %}
 </body>
     {{ encore_entry_script_tags('app') }} 

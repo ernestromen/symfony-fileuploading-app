@@ -9,8 +9,8 @@
 import './styles/app.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
 
-// import { createApp } from 'vue'; // Import createApp
-// import App from './components/App.vue';
+import { createApp } from 'vue'; // Import createApp
+import App from './components/App.vue';
 
-// const app = createApp(App);
-// app.mount('#app');
+const app = createApp(App);
+app.mount('#app');

@@ -1,7 +1,7 @@
 target_path:
    path: /
    controller: App\Controller\PageController::index
-
+   
 register:
    path: /register
    controller: App\Controller\RegistrationController::register
@@ -9,6 +9,7 @@ app_login:
    path: /login
    controller: App\Controller\SecurityController::login
    methods: [GET,POST]
+
 app_logout:
    path: /logout
    controller: App\Controller\SecurityController::logOut
@@ -16,10 +17,12 @@ app_logout:
 user_list:
    path: /userlist
    controller: App\Controller\PageController::userList
+   methods: GET
 
 video_list:
    path: /videolist
    controller: App\Controller\PageController::videoList
+   methods: GET
 
 add_video:
    path: /addvideo

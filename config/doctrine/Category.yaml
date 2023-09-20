@@ -1,0 +1,24 @@
+App\Entity\Category:
+  type: entity
+  table: categories  # The name of the database table
+  oneToMany:
+          videos:
+              targetEntity: App\Entity\Video
+              mappedBy: category
+  fields:
+    id:
+      type: integer
+      id: true
+
+    category_name:
+      type: text
+      nullable: false
+
+    createdAt:
+      type: datetime
+      nullable: true
+
+  lifecycleCallbacks:
+    prePersist: [ setCreatedAt ]
+
+  repositoryClass: App\Repository\PostRepository

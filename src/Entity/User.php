@@ -1,12 +1,12 @@
 <?php
 
-// src/Entity/User.php
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
@@ -54,9 +54,22 @@ class User implements UserInterface
      */
     private $roles;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Category", mappedBy="user")
+     */
+    private $categories;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Video", mappedBy="user")
+     */
+    private $videos;
+
+
     public function __construct()
     {
         $this->roles = array('ROLE_USER');
+        $this->categories = new ArrayCollection();
+        $this->videos = new ArrayCollection();
     }
 
     // other properties and methods
@@ -120,5 +133,16 @@ class User implements UserInterface
 
     public function eraseCredentials()
     {
+    }
+
+    
+    /**
+     * Get all categories associated with this user.
+     *
+     * @return Collection|Category[]
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
     }
 }
