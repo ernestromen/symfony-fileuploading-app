@@ -42,7 +42,9 @@ class PageController extends AbstractController
         $video = new Video();
         
         $form = $this->createForm(VideoType::class, $video);
-        
+        $videos = $this->em->getRepository(Video::class)->findAll();
+// dump($videos[0]);
+// die;
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
              
@@ -72,24 +74,55 @@ class PageController extends AbstractController
     }
         return $this->render(
             'pages/addvideo.html.twig',
-            array('form' => $form->createView())
+            [
+            'form' => $form->createView(),
+            'videos' => $videos
+            ]
         );
 }
+
+
+
+public function deleteVideo($id){
+
+    $this->denyAccessUnlessGranted('ROLE_ADMIN');
+    try {
+    $videoToDelete = $this->em->getRepository(Video::class)->find($id);
+
+    if (!$videoToDelete) {
+        throw $this->createNotFoundException('Video not found.');
+    }  
+
+    $this->em->remove($videoToDelete);
+
+    $this->em->flush();
+    $this->addFlash(
+        'notice',
+        'Category deleted successfully'
+    );            
+    return $this->redirectToRoute('add_video');
+} catch (\Exception $e) {
+    // Log the exception or handle it appropriately
+    echo new Response($e->getMessage(), 500);
+}
+
+}
+
 
     public function addCategory(Request $request){
         $category = new Category();
         $form = $this->createForm(CategoryType::class, $category);
+        $categories = $this->em->getRepository(Category::class)->findAll();
+// dump($categories[0]->getCategoryName());die;
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $this->getUser();
-            $category->setCategoryName($request->request->get('category')['category_name']);
-            // $category->setCreatedAt(new \DateTime());
             $category->setUser($user);
 
             $this->em->persist($category);
             $this->em->flush();
 
-
+            
             $this->addFlash(
                 'notice',
                 'Your changes were saved!'
@@ -100,19 +133,43 @@ class PageController extends AbstractController
 
         return $this->render(
             'pages/addcategory.html.twig',
-            array('form' => $form->createView())
+            [
+            'form' => $form->createView(),
+            'categories' => $categories
+            ]
         );
 
     }
+
+
+   public function deleteCategory($id)
+   {
+    $this->denyAccessUnlessGranted('ROLE_ADMIN');
+    try {
+    $categoryToDelete = $this->em->getRepository(Category::class)->find($id);
+    // !$categoryToDelete ? throw $this->createNotFoundException('Category not found.') : '';
+    // dump($id);die;
+    $this->em->remove($categoryToDelete);
+
+    $this->em->flush();
+    $this->addFlash(
+        'notice',
+        'Category deleted successfully'
+    );            
+    return $this->redirectToRoute('add_category');
+} catch (\Exception $e) {
+    echo new Response($e->getMessage(), 500);
+}
+   }
 
     public function videoList(){
 
        $result =  $this->em->getRepository(Category::class)->findAll();
     //    dump($result);die;
-       foreach($result as $res){
-        dump($res->getVideos());
-       }
-            die;
+    //    foreach($result as $res){
+    //     dump($res->getVideos());
+    //    }
+    //         die;
         return $this->render('pages/videos.html.twig');
     }
 

@@ -3,8 +3,10 @@
 // src/Entity/Category.php
 namespace App\Entity;
 
+use App\Repository\CategoryRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use DateTime;
+// use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 /**
@@ -13,6 +15,7 @@ use Doctrine\Common\Collections\Collection;
  * @ORM\Table(name="categories")
  */
 #[ORM\HasLifecycleCallbacks]
+
 class Category
 {
     /**
@@ -80,7 +83,7 @@ class Category
     
      public function setCreatedAt()
      {
-         $this->created_at = new \DateTimeImmutable();
+         $this->created_At = new \DateTimeImmutable();
  
          return $this;
      }

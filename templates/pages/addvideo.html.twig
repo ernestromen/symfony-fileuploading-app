@@ -9,5 +9,35 @@
 {{ form_start(form, { 'attr' : { 'class': 'w-25 m-auto mt-5' } }) }}
     {{ form_row(form.video_name) }}
 {{ form_end(form) }}
+
+<table class="table table-striped w-50 m-auto mt-5 mb-5 border border-dark">
+    <thead>
+        <tr>
+            <th>Video name/description</th>
+            <th>Video category</th>
+            <th>Video file</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for video in videos %}
+            <tr>
+                <td class="text-start">
+                  {{video.getVideoName}}
+                </td>
+                 <td class="text-start">
+                  {{video.getCategory.getCategoryName}}
+                </td>
+                <td class="text-start">
+                  {{video.getVideoFilePath}}
+                </td> 
+                <td class="border border-dark text-center">
+                    {% if app.user.roles[0] == 'ROLE_ADMIN' %}
+                    <a href="{{path('delete_video',{'id':video.id}) }}" class ="btn btn-danger">Delete</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+    </table>
 {% endblock %}
 

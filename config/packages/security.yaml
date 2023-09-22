@@ -49,6 +49,7 @@ security:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/deleteuser, roles: ROLE_ADMIN }
         - { path: ^/addvideo, roles: ROLE_ADMIN }
+        - { path: ^/addcategory, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:

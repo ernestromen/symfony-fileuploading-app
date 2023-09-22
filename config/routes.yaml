@@ -36,3 +36,12 @@ delete_user:
    path: /deleteuser/{id}
    controller: App\Controller\PageController::deleteUser
    methods: [GET,DELETE]
+
+delete_category:
+   path: /deletecategory/{id}
+   controller: App\Controller\PageController::deleteCategory
+   methods: [GET,DELETE]
+delete_video:
+   path: /deletevideo/{id}
+   controller: App\Controller\PageController::deleteVideo
+   methods: [GET,DELETE]

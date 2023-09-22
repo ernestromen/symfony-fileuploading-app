@@ -15,11 +15,12 @@ App\Entity\Category:
             type: datetime
             nullable: true
     lifecycleCallbacks:
-        prePersist: [ 'setCreatedAt' ]    
+        prePersist: [ setCreatedAt ]    
     oneToMany:
         videos:
             targetEntity: App\Entity\Video
             mappedBy: category
+            cascade: ["remove"]
     manyToOne:
       user:
           targetEntity: App\Entity\User
