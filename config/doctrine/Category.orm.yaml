@@ -1,0 +1,30 @@
+App\Entity\Category:
+    type: entity
+    table: categories
+    repositoryClass: App\Repository\CategoryRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        category_name:
+            type: text
+            nullable: false
+        createdAt:
+            type: datetime
+            nullable: true
+    lifecycleCallbacks:
+        prePersist: [ 'setCreatedAt' ]    
+    oneToMany:
+        videos:
+            targetEntity: App\Entity\Video
+            mappedBy: category
+    manyToOne:
+      user:
+          targetEntity: App\Entity\User
+          inversedBy: categories
+          joinColumn:
+              name: user_id
+              referencedColumnName: id
+              nullable: false

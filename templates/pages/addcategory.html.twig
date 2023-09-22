@@ -7,7 +7,8 @@
     </div>
 {% endfor %}
 {{ form_start(form, { 'attr' : { 'class': 'w-25 m-auto mt-5' } }) }}
-    {{ form_row(form.video_name) }}
+    {{ form_row(form.category_name) }}
+    {# {{ form_row(form.created_at,{'attr': {'disabled':'disabled'} }) }} #}
 {{ form_end(form) }}
 {% endblock %}
 

@@ -28,6 +28,10 @@ add_video:
    path: /addvideo
    controller: App\Controller\PageController::addVideo
 
+add_category:
+   path: /addcategory
+   controller: App\Controller\PageController::addCategory
+
 delete_user:
    path: /deleteuser/{id}
    controller: App\Controller\PageController::deleteUser

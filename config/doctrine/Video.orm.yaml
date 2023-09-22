@@ -1,0 +1,37 @@
+App\Entity\Video:
+    type: entity
+    table: videos
+    repositoryClass: App\Repository\VideoRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        video_name:
+            type: string
+            length: 255
+        videoFilePath: # This is the property name in your Video entity
+            type: string # Adjust the type accordingly if it should be a different data type
+        nullable: true
+        createdAt:
+            type: datetime
+            nullable: true
+    lifecycleCallbacks:
+        prePersist: [ 'setCreatedAt' ]
+    repositoryClass: App\Repository\VideoRepository
+    manyToOne:
+        category:
+            targetEntity: App\Entity\Category
+            inversedBy: videos
+            joinColumn:
+                name: category_id
+                referencedColumnName: id
+                nullable: false
+        user:
+          targetEntity: App\Entity\User
+          inversedBy: videos
+          joinColumn:
+              name: user_id
+              referencedColumnName: id
+              nullable: false

@@ -6,11 +6,13 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
-
+use Doctrine\Common\Collections\Collection;
 /**
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Table(name="categories")
  */
+#[ORM\HasLifecycleCallbacks]
 class Category
 {
     /**
@@ -25,11 +27,13 @@ class Category
      */
     private $category_name;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
+      /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created_at", type="datetime")
      */
-    private $createdAt;
-
+    private $created_At;
+    
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="categories")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
@@ -45,7 +49,6 @@ class Category
     public function __construct()
     {
         $this->videos = new ArrayCollection();
-        // ...
     }
 
     public function getId()
@@ -65,21 +68,50 @@ class Category
 
     public function getCreatedAt()
     {
-        return $this->createdAt;
+        return $this->created_At;
     }
 
-    public function setCreatedAt()
-    {
-        $this->createdAt = new DateTime();
-    }
+
+      /**
+     * Set created at timestamp before persisting.
+     *
+     * @ORM\PrePersist
+     */
+    
+     public function setCreatedAt()
+     {
+         $this->created_at = new \DateTimeImmutable();
+ 
+         return $this;
+     }
 
      /**
      * Get all categories associated with this user.
      *
      * @return Collection|Category[]
      */
-    public function getVideos(): Collection
+    public function getVideos()
     {
         return $this->videos;
+    }
+
+        /**
+     * Get the user associated with this video.
+     *
+     * @return User|null
+     */
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+        /**
+     * Get the user associated with this video.
+     *
+     * @return User|null
+     */
+    public function setUser($user): ?User
+    {
+         $this->user= $user;
+         return $this->user;
     }
 }

@@ -57,12 +57,12 @@ class User implements UserInterface
     /**
      * @ORM\OneToMany(targetEntity="Category", mappedBy="user")
      */
-    private $categories;
+    // private $categories;
 
     /**
      * @ORM\OneToMany(targetEntity="Video", mappedBy="user")
      */
-    private $videos;
+    // private $videos;
 
 
     public function __construct()
@@ -141,8 +141,17 @@ class User implements UserInterface
      *
      * @return Collection|Category[]
      */
-    public function getCategories(): Collection
+    public function getCategories()
     {
         return $this->categories;
+    }
+    /**
+     * Get all categories associated with this user.
+     *
+     * @return Collection|Category[]
+     */
+    public function getVideos()
+    {
+        return $this->videos;
     }
 }
