@@ -25,9 +25,6 @@
     text-decoration: none;
   }
   
-  li a:hover:not(.active) {
-    background-color: #111;
-  }
   
   .active {
     background-color: #04AA6D;
@@ -50,4 +47,6 @@
 
   #nav li ul {
     /* display: none; */
+    display:grid;
+    background-color: rgb(126, 123, 120);
   }

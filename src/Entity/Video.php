@@ -5,6 +5,9 @@ namespace App\Entity;
 use App\Repository\VideoRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Traits\TimestampableTrait;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -14,6 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks]
  class Video
 {
+    use TimestampableTrait;
       /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -25,16 +29,6 @@ use Doctrine\ORM\Mapping as ORM;
      * @ORM\Column(type="string", length=255)
      */
     private $video_name;
-
-   /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="created_at", type="datetime")
-     */
-
-    private $created_at;
-
-
         /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="videos")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
@@ -66,23 +60,6 @@ use Doctrine\ORM\Mapping as ORM;
     public function setVideoName(string $video_name)
     {
         $this->video_name = $video_name;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->created_at;
-    }
-
-     /**
-     * Set created at timestamp before persisting.
-     *
-     * @ORM\PrePersist
-     */
-    public function setCreatedAt()
-    {
-        $this->created_at = new \DateTimeImmutable();
-
-        return $this;
     }
 
     public function getUpdatedAt(): ?\DateTimeInterface

@@ -6,9 +6,10 @@ namespace App\Entity;
 use App\Repository\CategoryRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-// use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use App\Entity\Traits\TimestampableTrait;
+
 /**
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
@@ -18,6 +19,7 @@ use Doctrine\Common\Collections\Collection;
 
 class Category
 {
+    use TimestampableTrait;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -29,14 +31,6 @@ class Category
      * @ORM\Column(type="string", length=255)
      */
     private $category_name;
-
-      /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="created_at", type="datetime")
-     */
-    private $created_At;
-    
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="categories")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
@@ -44,14 +38,14 @@ class Category
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity="Video", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="Video", mappedBy="category",cascade={"remove"})
      */
     private $videos;
 
 
     public function __construct()
     {
-        $this->videos = new ArrayCollection();
+        $this->videos = new Collection();
     }
 
     public function getId()
@@ -69,25 +63,6 @@ class Category
         $this->category_name = $category_name;
     }
 
-    public function getCreatedAt()
-    {
-        return $this->created_At;
-    }
-
-
-      /**
-     * Set created at timestamp before persisting.
-     *
-     * @ORM\PrePersist
-     */
-    
-     public function setCreatedAt()
-     {
-         $this->created_At = new \DateTimeImmutable();
- 
-         return $this;
-     }
-
      /**
      * Get all categories associated with this user.
      *
@@ -96,6 +71,12 @@ class Category
     public function getVideos()
     {
         return $this->videos;
+    }
+
+    public function setVideos($videos)
+    {
+        $this->videos = $videos;
+        return $this;
     }
 
         /**

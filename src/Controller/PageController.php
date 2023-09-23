@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use App\Form\VideoType;
 use App\Form\CategoryType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class PageController extends AbstractController
 {
@@ -43,17 +44,16 @@ class PageController extends AbstractController
         
         $form = $this->createForm(VideoType::class, $video);
         $videos = $this->em->getRepository(Video::class)->findAll();
-// dump($videos[0]);
-// die;
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-             
+            try {
             $user = $this->getUser();
             $video->setUser($user);        
             $videoFile = $form->get('video_file_path')->getData();
         
             if ($videoFile) {
                 $originalFilename = pathinfo($videoFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $extension = pathinfo($videoFile->getClientOriginalName(), PATHINFO_EXTENSION );
                 $newFilename = $originalFilename.'-'.uniqid().'.'.$videoFile->guessExtension();
                 $videoFile->move(
                     $this->getParameter('video_directory'), // Define the directory where videos should be stored
@@ -71,6 +71,13 @@ class PageController extends AbstractController
             );
         }
         return $this->redirectToRoute('add_video');
+        } catch (Exception $e) {
+            $this->addFlash(
+                'notice',
+                $e->getMessage()
+            );
+            return $this->redirectToRoute('add_video');
+        }    
     }
         return $this->render(
             'pages/addvideo.html.twig',
@@ -98,7 +105,7 @@ public function deleteVideo($id){
     $this->em->flush();
     $this->addFlash(
         'notice',
-        'Category deleted successfully'
+        'Video deleted successfully'
     );            
     return $this->redirectToRoute('add_video');
 } catch (\Exception $e) {
@@ -159,18 +166,38 @@ public function deleteVideo($id){
     return $this->redirectToRoute('add_category');
 } catch (\Exception $e) {
     echo new Response($e->getMessage(), 500);
+    $this->addFlash(
+        'notice',
+        $e->getMessage()
+    );    
+    return $this->redirectToRoute('add_category');
 }
    }
 
-    public function videoList(){
+   public function videoList(){
+        $data = [];
+       $categories =  $this->em->getRepository(Category::class)->findAll();
+       foreach($categories as $category){
+        foreach($category->getVideos()->getIterator() as $video){
+            $videos[] = [
+                'videoName' => $video->getVideoName(),
+                'videoFilePath' => $video->getVideoFilePath()
+            ];
+        }
+        // $category->setVideos($videos);
+        $data[] = [
+            "categoryName" => $category->getCategoryName(),
+            "videos" => $videos,
+        ];
+        $arr[] = $category;
+        $videos = [];
+           }
 
-       $result =  $this->em->getRepository(Category::class)->findAll();
-    //    dump($result);die;
-    //    foreach($result as $res){
-    //     dump($res->getVideos());
-    //    }
-    //         die;
-        return $this->render('pages/videos.html.twig');
+        //    return new JsonResponse($data);
+// dump($data);die;
+        return $this->render('pages/videos.html.twig',[
+            'categories' => ($data)
+        ]);
     }
 
     public function deleteUser($id){

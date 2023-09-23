@@ -17,19 +17,45 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Validator\Constraints\File;
+
 class VideoType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('video_name', TextType::class)
+            ->add('video_name', TextType::class,[
+                'required' => true
+            ])
             ->add('category', EntityType::class, [
-                'class' => Category::class, // Specify the entity class for the select field
-                'choice_label' => 'category_name', // Specify the property to display as the choice label
-                'placeholder' => 'Select a category', // Optional: Add a default placeholder
+                'class' => Category::class,
+                'choice_label' => 'category_name',
+                'placeholder' => 'Select a category', 
+                'required' => true
             ])
             ->add('video_file_path', FileType::class, [
-                'required' => false, // You can set this to true if video upload is mandatory
+                'required' => true,
+                'constraints' => [
+                    new File([
+                        'mimeTypes' => [
+                            'video/mp4',
+                            'video/mkv',
+                            'video/mov',
+                            'video/avi',
+                            'video/wmv',
+                            'video/flv',
+                            'video/webm',
+                            'video/m4v',
+                            'video/mpg',
+                            'video/mpeg',
+                            'video/3gp',
+                            'video/3g2',
+                            'video/m2ts',
+                            'video/mts',
+                    ],
+                    'mimeTypesMessage' => 'Please upload a valid video file.',
+                ])
+                ]     
             ])
             ->add('submit',SubmitType::class, ['label' => 'Add Video'])
             ;
