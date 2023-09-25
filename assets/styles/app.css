@@ -36,7 +36,6 @@
   #nav {
     width: 244px;
     right: 0px;
-    position: absolute;
     display: grid;
   }
 
@@ -50,3 +49,75 @@
     display:grid;
     background-color: rgb(126, 123, 120);
   }
+
+  /* Haburger menu css */
+  .width-size{
+      width:25%;
+  }
+  @media (max-width: 1560px) {
+    .width-size{
+      width:50%;
+  }
+  }
+
+
+  @media (max-width: 992px) {
+    .width-size{
+      width:75%;
+  }
+  #btn-size{width:100% !important;}
+
+  #video_submit{
+    width:100%
+  }
+  }
+  @media (max-width: 760px) {
+    .width-size{
+      width:100%;
+  }
+  }
+
+
+#hamburger-button {
+  display: none; /* Initially hide the button */
+  font-size: 24px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+#menu-container {
+  position: absolute;
+  right: 5%;
+}
+
+/* Media query for screens under 1200px */
+@media (max-width: 1200px) {
+  #hamburger-button {
+    display: block; /* Show the button when the screen is under 1200px */  
+  }
+
+  #menu-container {
+    position: initial;
+    right: 5%;
+    display: none; /* Hide the menu container by default under 1200px */
+  }
+
+  /* Styles for the expanded menu */
+  #hamburger-button.active + #menu-container {
+    display: block; /* Show the menu when the button is clicked (active) */
+  }
+
+  #nav{
+    width: 100%;
+  }
+  li a{
+    text-align: center !important;
+  }
+}
+
+@media screen and (max-width: 1560px) {
+  li a{
+    text-align: left;
+  }
+}

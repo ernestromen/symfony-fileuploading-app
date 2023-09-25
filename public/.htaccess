@@ -1,8 +1,8 @@
-php_value upload_max_filesize 128M
-php_value post_max_size 128M
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^(.*)$ index.php [QSA,L]
 </IfModule>
+
+LimitRequestBody 5882591321

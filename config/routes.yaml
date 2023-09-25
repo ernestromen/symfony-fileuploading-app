@@ -24,6 +24,11 @@ video_list:
    controller: App\Controller\PageController::videoList
    methods: GET
 
+fetch_video_list:
+   path: /fetchvideolist
+   controller: App\Controller\PageController::fetchVideoList
+   methods: GET
+
 add_video:
    path: /addvideo
    controller: App\Controller\PageController::addVideo
@@ -46,3 +51,7 @@ delete_video:
    path: /deletevideo/{id}
    controller: App\Controller\PageController::deleteVideo
    methods: [GET,DELETE]
+
+   # video_download:
+   #  path: /videos/{filename}
+   #  controller: App\Controller\VideoController::download

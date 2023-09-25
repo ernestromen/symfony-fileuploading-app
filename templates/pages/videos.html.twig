@@ -2,30 +2,31 @@
 {% extends 'base.html.twig' %}
         {% block content %}
 
-        <h1 class="text-center mt-3">Videos</h1>
+        {# <h1 class="text-center mt-3">Videos</h1> #}
      
-        <body>
+        {# <body>
+          <pre>
+          {{dump(categories[0]["videos"][0]['videoFilePath'])}}
+          </pre>
         <ul id="nav">
           {% for category in categories %}
             <li>
               <a href="#">{{category['categoryName']}}</a>
               <ul>
                 {% for video in category['videos'] %}
-                <li><a href="#">{{video['videoName']|raw}}</a></li>
-                {# <li><a href="#">Sub-Item 1 b</a></li> #}
-                {# <li><a href="#">Sub-Item 1 c</a></li> #}
+                <li><a data-url='videourl' href="#">{{video['videoName']|raw}}</a></li>
                 {% endfor %}
               </ul>
             </li>
                 {% endfor %}
-              </ul>
-
+              </ul> #}
+              {# <div class="iframediv text-center">
+                <iframe width="560" height="315" src="{{ path('video_download', {'filename':categories[0]["videos"][0]['videoFilePath'] }) }}" frameborder="0" allowfullscreen></iframe>
+              </div> #}
               <div id="app" myProp="fuck you" >
                 <App > </App>
-                {# <App myProp="{{ categories | json_encode | raw }}"> </App> #}
-                {# <App {{ ':myProp="' ~ categories | json_encode | raw ~ '"' }}> </App> #}
             </div>
-        </body>
-    </main> 
+        {# </body>
+    </main>  #}
         {% endblock %}
 

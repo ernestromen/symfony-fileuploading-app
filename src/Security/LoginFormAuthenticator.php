@@ -52,7 +52,7 @@ $this->logger->info('');
         }
 
         // For example:
-        return new RedirectResponse($this->urlGenerator->generate('target_path'));
+        return new RedirectResponse($this->urlGenerator->generate('video_list'));
         // throw new \Exce ption('TODO: provide a valid redirect inside '.__FILE__);
     }
 

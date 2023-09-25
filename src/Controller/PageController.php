@@ -25,9 +25,11 @@ class PageController extends AbstractController
     }
 
     public function index(){
-        return $this->render(
-            'pages/index.html.twig'
-        );
+        if( $this->isGranted('ROLE_ADMIN') ||  $this->isGranted('ROLE_USER')){
+          return  $this->redirectToRoute('video_list');
+        }else{
+          return  $this->redirectToRoute('app_login');
+        }
     }
 
     public function userList(){
@@ -109,7 +111,6 @@ public function deleteVideo($id){
     );            
     return $this->redirectToRoute('add_video');
 } catch (\Exception $e) {
-    // Log the exception or handle it appropriately
     echo new Response($e->getMessage(), 500);
 }
 
@@ -120,7 +121,7 @@ public function deleteVideo($id){
         $category = new Category();
         $form = $this->createForm(CategoryType::class, $category);
         $categories = $this->em->getRepository(Category::class)->findAll();
-// dump($categories[0]->getCategoryName());die;
+
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $this->getUser();
@@ -154,8 +155,7 @@ public function deleteVideo($id){
     $this->denyAccessUnlessGranted('ROLE_ADMIN');
     try {
     $categoryToDelete = $this->em->getRepository(Category::class)->find($id);
-    // !$categoryToDelete ? throw $this->createNotFoundException('Category not found.') : '';
-    // dump($id);die;
+
     $this->em->remove($categoryToDelete);
 
     $this->em->flush();
@@ -193,11 +193,32 @@ public function deleteVideo($id){
         $videos = [];
            }
 
-        //    return new JsonResponse($data);
-// dump($data);die;
-        return $this->render('pages/videos.html.twig',[
+           return $this->render('pages/videos.html.twig',[
             'categories' => ($data)
         ]);
+    }
+    
+    public function fetchVideoList(){
+        $data = [];
+        $categories =  $this->em->getRepository(Category::class)->findAll();
+        foreach($categories as $category){
+         foreach($category->getVideos()->getIterator() as $video){
+             $videos[] = [
+                 'videoName' => $video->getVideoName(),
+                 'videoFilePath' => $video->getVideoFilePath()
+             ];
+         }
+         // $category->setVideos($videos);
+         $data[] = [
+             "categoryName" => $category->getCategoryName(),
+             "videos" => $videos,
+         ];
+         $arr[] = $category;
+         $videos = [];
+        }
+                    return new JsonResponse($data);
+
+
     }
 
     public function deleteUser($id){

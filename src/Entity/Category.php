@@ -45,7 +45,7 @@ class Category
 
     public function __construct()
     {
-        $this->videos = new Collection();
+        $this->videos = new ArrayCollection();
     }
 
     public function getId()

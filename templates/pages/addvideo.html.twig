@@ -1,12 +1,13 @@
 
 {% extends 'base.html.twig' %}
         {% block content %}
+        <div class="col-md-12 col-11 m-auto">
         {% for message in app.flashes('notice') %}
     <div class="flash-notice mt-4 text-center border border-dark bg-success w-25 m-auto pt-3 pb-3 text-light">
         {{ message }}
     </div>
 {% endfor %}
-{{ form_start(form, { 'attr' : { 'class': 'w-25 m-auto mt-5' } }) }}
+{{ form_start(form, { 'attr' : { 'class': 'width-size m-auto mt-5 px-1 px-md-5' } }) }}
     {{ form_row(form.video_name) }}
 {{ form_end(form) }}
 
@@ -39,5 +40,6 @@
         {% endfor %}
     </tbody>
     </table>
+    </div>
 {% endblock %}
 
